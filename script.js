@@ -14,7 +14,7 @@ document.getElementById("menge").addEventListener("change", function () {
 function sendeZuWhatsApp(event) {
     event.preventDefault();
 
-    const telefonnummer = "+49123456789"; // Ersetze mit deiner Nummer!
+    const telefonnummer = "+381677388465"; // Ersetze mit deiner Nummer!
 
     // Formulardaten holen
     const name = document.getElementById("name").value;
