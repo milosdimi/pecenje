@@ -14,7 +14,7 @@ document.getElementById("menge").addEventListener("change", function () {
 function sendeZuWhatsApp(event) {
     event.preventDefault();
 
-    const telefonnummer = "+381677388465"; // Ersetze mit deiner Nummer!
+    const telefonnummer = "+381677388465";
 
     // Formulardaten holen
     const name = document.getElementById("name").value;
@@ -22,11 +22,12 @@ function sendeZuWhatsApp(event) {
     const produkt = document.getElementById("produkt").value;
     let menge = document.getElementById("menge").value;
     const kgMenge = document.getElementById("kgMenge").value;
-    const fuerWann = document.getElementById("fuerWann").value || "Nicht angegeben";
+    const fuerWannRaw = document.getElementById("fuerWann").value || "Nicht angegeben";
+    const fuerWann = fuerWannRaw !== "Nicht angegeben" ? new Date(fuerWannRaw).toLocaleDateString("de-DE") : "Nicht angegeben";
 
     // Wenn "kg" gewählt wurde, die benutzerdefinierte Menge verwenden
-    if (menge === "kg" && kgMenge) {
-        menge = `${kgMenge} kg`;
+    if (menge === "kg") {
+        menge = kgMenge ? `${kgMenge} kg` : "Menge nicht angegeben";
     }
 
     // Nachricht zusammenstellen
