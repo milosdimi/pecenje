@@ -1,4 +1,4 @@
-// Dynamisches kg-Feld anzeigen/verstecken
+// Dynamisches kg-Feld anzeigen/verstecken (wie gehabt)
 document.getElementById("menge").addEventListener("change", function () {
     const kgEingabe = document.getElementById("kgEingabe");
     const kgMengeInput = document.getElementById("kgMenge");
@@ -12,57 +12,65 @@ document.getElementById("menge").addEventListener("change", function () {
     }
 });
 
-// Hidden-Input sauber (nur für echte Form-Submits relevant)
+// Hidden-Input (wie gehabt)
 (function () {
     const cb = document.getElementById("iseceno");
     const hidden = document.getElementById("iseceno-hidden");
     if (cb && hidden) {
-        const syncHidden = () => {
-            hidden.disabled = cb.checked; // checked => "Da" kommt (Checkbox), hidden wird ignoriert
-        };
+        const syncHidden = () => { hidden.disabled = cb.checked; };
         cb.addEventListener("change", syncHidden);
         syncHidden();
     }
 })();
 
-// WhatsApp-Link Logik
+// WhatsApp-Link Logik + Bootstrap Validation Hook
 function sendeZuWhatsApp(event) {
     event.preventDefault();
+    const form = document.getElementById("bestellFormular");
 
-    const telefonnummer = "+436606883121";
+    // Native Constraint Validation
+    if (!form.checkValidity()) {
+        form.classList.add("was-validated");
+        return; // stop, wenn etwas ungültig ist
+    }
 
-    // Formulardaten holen
+    // Spezialfall: falls Menge "kg", aber Eingabe leer/ungültig
+    const mengeSelect = document.getElementById("menge");
+    const kgMenge = document.getElementById("kgMenge").value;
+    if (mengeSelect.value === "kg" && (!kgMenge || Number(kgMenge) <= 0)) {
+        form.classList.add("was-validated");
+        return;
+    }
+
+    const telefonnummer = "+436606883121"; // Ziel-WhatsApp
+
+    // Formulardaten
     const name = document.getElementById("name").value.trim();
     const telefon = document.getElementById("telefon").value.trim();
     const produkt = document.getElementById("produkt").value;
-    let menge = document.getElementById("menge").value;
-    const kgMenge = document.getElementById("kgMenge").value;
+    let menge = mengeSelect.value;
     const fuerWannRaw = document.getElementById("fuerWann").value || "Nicht angegeben";
-    const fuerWann =
-        fuerWannRaw !== "Nicht angegeben"
-            ? new Date(fuerWannRaw).toLocaleDateString("de-DE")
-            : "Nicht angegeben";
+    const fuerWann = fuerWannRaw !== "Nicht angegeben"
+        ? new Date(fuerWannRaw).toLocaleDateString("de-DE")
+        : "Nicht angegeben";
 
-    // Checkbox-Wert für Isečeno na komade (Ja/Nein)
+    // Checkbox-Wert
     const iseceno = document.getElementById("iseceno").checked ? "Da" : "Ne";
 
-    // Wenn "kg" gewählt wurde, benutzerdefinierte Menge verwenden
+    // Menge formatieren
     if (menge === "kg") {
-        menge = kgMenge ? `${kgMenge} kg` : "Menge nicht angegeben";
+        menge = `${kgMenge} kg`;
     }
 
-    // Nachricht zusammenstellen
+    // Nachricht
     const text =
         `Bestellung von ${name}\n` +
-        `Telefon: ${telefon}\n` +
+        `Telefon: +43 ${telefon}\n` +
         `Produkt: ${produkt}\n` +
         `Menge: ${menge}\n` +
         `Isečeno na komade: ${iseceno}\n` +
         `Für wann: ${fuerWann}`;
 
-    // WhatsApp-URL erstellen
     const whatsappUrl = `https://wa.me/${telefonnummer}?text=${encodeURIComponent(text)}`;
-
-    // WhatsApp öffnen
     window.open(whatsappUrl, "_blank");
 }

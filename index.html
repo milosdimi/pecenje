@@ -7,95 +7,136 @@
     <link rel="icon" type="image/x-icon" href="./img/roast-chicken.png">
     <title>Bestellformular</title>
 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="form-container">
-        <h2 class="text-center mb-4">Bestellung aufgeben</h2>
+    <div class="min-vh-100 d-flex align-items-center justify-content-center app-bg">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="card shadow-lg form-card">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="text-center mb-4">
+                                <img src="./img/roast-chicken.png" alt="" width="56" height="56"
+                                    class="rounded-circle shadow-sm">
+                                <h2 class="mt-3 mb-0">Bestellung aufgeben</h2>
+                                <p class="text-secondary mb-0">Schnell & unkompliziert per WhatsApp</p>
+                            </div>
 
-        <form id="bestellFormular" onsubmit="sendeZuWhatsApp(event)">
-            <!-- Name -->
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Dein Name" required>
-            </div>
+                            <form id="bestellFormular" class="needs-validation" novalidate
+                                onsubmit="sendeZuWhatsApp(event)">
+                                <!-- Name -->
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="Dein Name" required minlength="2">
+                                    <div class="invalid-feedback">Bitte gib deinen Namen ein (mind. 2 Zeichen).</div>
+                                </div>
 
-            <!-- Telefon -->
-            <div class="mb-3">
-                <label for="telefon" class="form-label">Telefonnummer</label>
-                <input type="tel" class="form-control" id="telefon" name="telefon" placeholder="+43**********" required>
-            </div>
+                                <!-- Telefon -->
+                                <div class="mb-3">
+                                    <label for="telefon" class="form-label">Telefonnummer</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+43</span>
+                                        <input type="tel" class="form-control" id="telefon" name="telefon"
+                                            placeholder="660 123 4567" required pattern="^[0-9][0-9\s\-]{5,}$">
+                                        <div class="invalid-feedback">Bitte gib eine gültige Nummer ohne führende 0 ein.
+                                        </div>
+                                    </div>
+                                    <div class="form-text">Nur Ziffern, Leerzeichen oder Bindestrich, z. B. 660 123
+                                        4567.</div>
+                                </div>
 
-            <!-- Produkt -->
-            <div class="mb-3">
-                <label for="produkt" class="form-label">Produkt</label>
-                <select class="form-select" id="produkt" name="produkt" required>
-                    <option value="" disabled selected>Wähle ein Produkt</option>
-                    <option value="Prase">Prase</option>
-                    <option value="Jagnje">Jagnje</option>
-                    <option value="Kokoske" disabled>Kokoske (zurzeit nicht verfügbar)</option>
-                </select>
-            </div>
+                                <!-- Produkt -->
+                                <div class="mb-3">
+                                    <label for="produkt" class="form-label">Produkt</label>
+                                    <select class="form-select" id="produkt" name="produkt" required>
+                                        <option value="" disabled selected>Wähle ein Produkt</option>
+                                        <option value="Prase">Prase</option>
+                                        <option value="Jagnje">Jagnje</option>
+                                        <option value="Kokoske" disabled>Kokoske (zurzeit nicht verfügbar)</option>
+                                    </select>
+                                    <div class="invalid-feedback">Bitte wähle ein Produkt.</div>
+                                </div>
 
-            <!-- Menge -->
-            <div class="mb-3">
-                <label for="menge" class="form-label">Menge</label>
-                <select class="form-select" id="menge" name="menge" required>
-                    <option value="" disabled selected>Wähle eine Menge</option>
-                    <option value="Ganzes Stück">Ganzes Stück</option>
-                    <option value="1/2 Stück">1/2 Stück</option>
-                    <option value="1/4 Stück">1/4 Stück</option>
-                    <option value="kg">kg (Menge angeben)</option>
-                </select>
-            </div>
+                                <!-- Menge -->
+                                <div class="mb-3">
+                                    <label for="menge" class="form-label">Menge</label>
+                                    <select class="form-select" id="menge" name="menge" required>
+                                        <option value="" disabled selected>Wähle eine Menge</option>
+                                        <option value="Ganzes Stück">Ganzes Stück</option>
+                                        <option value="1/2 Stück">1/2 Stück</option>
+                                        <option value="1/4 Stück">1/4 Stück</option>
+                                        <option value="kg">kg (Menge angeben)</option>
+                                    </select>
+                                    <div class="invalid-feedback">Bitte wähle eine Menge.</div>
+                                </div>
 
-            <!-- Zusätzliches kg-Eingabefeld (versteckt) -->
-            <div class="mb-3" id="kgEingabe" style="display: none;">
-                <label for="kgMenge" class="form-label">Wie viel kg?</label>
-                <input type="number" class="form-control" id="kgMenge" name="kgMenge" step="0.1" min="0.1"
-                    placeholder="z. B. 1.5">
-            </div>
+                                <!-- kg Eingabe (nur wenn "kg") -->
+                                <div class="mb-3" id="kgEingabe" style="display:none;">
+                                    <label for="kgMenge" class="form-label">Wie viel kg?</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="kgMenge" name="kgMenge" step="0.1"
+                                            min="0.1" placeholder="z. B. 1.5">
+                                        <span class="input-group-text">kg</span>
+                                        <div class="invalid-feedback">Bitte gib die kg-Menge an (z. B. 1.5).</div>
+                                    </div>
+                                </div>
 
-            <!-- Isečeno na komade (Ja/Nein) -->
-            <div class="mb-3">
-                <!-- Default: Ne (nur fürs echte Formular-Submit nützlich) -->
-                <input type="hidden" name="iseceno_na_komade" value="Ne" id="iseceno-hidden">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="iseceno" name="iseceno_na_komade" value="Da">
-                    <label class="form-check-label" for="iseceno">Isečeno na komade</label>
+                                <!-- Isečeno na komade (Switch) -->
+                                <div class="mb-3">
+                                    <input type="hidden" name="iseceno_na_komade" value="Ne" id="iseceno-hidden">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="iseceno"
+                                            name="iseceno_na_komade" value="Da">
+                                        <label class="form-check-label" for="iseceno">Isečeno na komade</label>
+                                    </div>
+                                    <div class="form-text">Wenn aktiv, schneiden wir in Stücke.</div>
+                                </div>
+
+                                <!-- Datum -->
+                                <div class="mb-4">
+                                    <label for="fuerWann" class="form-label">Für wann? (optional)</label>
+                                    <input type="date" class="form-control" id="fuerWann" name="fuerWann">
+                                </div>
+
+                                <!-- Submit mit WhatsApp-Icon -->
+                                <button type="submit"
+                                    class="btn btn-primary btn-lg w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"
+                                        aria-hidden="true" focusable="false">
+                                        <path
+                                            d="M19.11 17.23c-.26-.13-1.53-.76-1.77-.85-.24-.09-.42-.13-.6.13-.18.26-.69.85-.84 1.03-.15.18-.31.19-.57.06-.26-.13-1.09-.4-2.08-1.28-.77-.69-1.28-1.53-1.43-1.79-.15-.26-.02-.4.11-.53.11-.11.26-.28.39-.42.13-.15.17-.26.26-.44.09-.18.04-.33-.02-.46-.06-.13-.6-1.44-.82-1.98-.22-.53-.44-.46-.6-.46-.15 0-.33-.02-.5-.02s-.46.06-.7.33c-.24.26-.92.9-.92 2.2 0 1.3.94 2.55 1.07 2.72.13.18 1.85 2.83 4.49 3.96.63.27 1.12.43 1.5.55.63.2 1.2.17 1.65.1.5-.07 1.53-.62 1.74-1.22.22-.6.22-1.12.15-1.22-.07-.11-.24-.17-.5-.3zM16.02 3.2c-7.09 0-12.83 5.57-12.83 12.45 0 2.46.74 4.76 2.01 6.71L3.2 28.8l6.62-1.94a12.9 12.9 0 006.2 1.62c7.09 0 12.83-5.57 12.83-12.45 0-6.88-5.74-12.45-12.83-12.45zm0 22.64a10.1 10.1 0 01-5.14-1.4l-.37-.22-3.93 1.15 1.12-3.73-.24-.38a9.8 9.8 0 01-1.52-5.22c0-5.42 4.51-9.82 10.07-9.82 5.55 0 10.07 4.4 10.07 9.82 0 5.42-4.51 9.82-10.07 9.82z" />
+                                    </svg>
+                                    Bestellung senden
+                                </button>
+                            </form>
+
+
+                            <!-- Datenschutz -->
+                            <p class="datenschutz-hinweis text-center small text-secondary mt-4 mb-0">
+                                Hinweis: Deine Daten werden nur zur Bearbeitung der Bestellung genutzt und per WhatsApp
+                                an Dragoslav Veselinovic gesendet. Du kannst jederzeit widersprechen.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- optional: kleines Impressum darunter -->
+                    <!-- <p class="text-center mt-3 small text-secondary">[Dein Name], [Adresse], [E-Mail]</p> -->
                 </div>
-                <div class="form-text">Wenn aktiviert, wird das Fleisch in Stücke geschnitten.</div>
             </div>
-
-            <!-- Für wann (optional) -->
-            <div class="mb-3">
-                <label for="fuerWann" class="form-label">Für wann? (optional)</label>
-                <input type="date" class="form-control" id="fuerWann" name="fuerWann">
-            </div>
-
-            <!-- Submit -->
-            <button type="submit" class="btn btn-primary w-100">Bestellung senden</button>
-        </form>
-
-        <!-- Datenschutzhinweis -->
-        <p class="datenschutz-hinweis mt-3">
-            Hinweis: Deine Daten (Name, Telefon, Bestellung) werden nur zur Bearbeitung deiner Bestellung genutzt und
-            per WhatsApp an Dragoslav Veselinovic gesendet. WhatsApp (Meta, USA) erhält dabei Metadaten.
-            Du kannst jederzeit per Nachricht widersprechen.
-        </p>
-
-        <!-- Impressum (optional, falls später geschäftlich)
-    <p style="font-size: 12px; margin-top: 5px; text-align: center;">
-      [Dein Name], [Deine Adresse], [Deine E-Mail]
-    </p> -->
+        </div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 
 </html>
