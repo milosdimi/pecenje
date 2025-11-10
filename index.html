@@ -39,18 +39,40 @@
                                     <div class="invalid-feedback">Bitte gib deinen Namen ein (mind. 2 Zeichen).</div>
                                 </div>
 
-                                <!-- Telefon -->
+                                <!-- Telefon (international) -->
                                 <div class="mb-3">
                                     <label for="telefon" class="form-label">Telefonnummer</label>
                                     <div class="input-group">
-                                        <span class="input-group-text">+43</span>
+                                        <select class="form-select country-code-select" id="ccode" name="ccode" required
+                                            aria-label="Ländervorwahl">
+                                            <option value="" disabled selected>Vorwahl</option>
+                                            <option value="+43">🇦🇹 +43 (AT)</option>
+                                            <option value="+49">🇩🇪 +49 (DE)</option>
+                                            <option value="+386">🇸🇮 +386 (SI)</option>
+                                            <option value="+385">🇭🇷 +385 (HR)</option>
+                                            <option value="+387">🇧🇦 +387 (BA)</option>
+                                            <option value="+381">🇷🇸 +381 (RS)</option>
+                                            <option value="+382">🇲🇪 +382 (ME)</option>
+                                            <option value="+389">🇲🇰 +389 (MK)</option>
+                                            <option value="+41">🇨🇭 +41 (CH)</option>
+                                            <option value="+39">🇮🇹 +39 (IT)</option>
+                                            <option value="other">Andere…</option>
+                                        </select>
+
+                                        <!-- erscheint nur wenn "Andere…" gewählt -->
+                                        <input type="tel" class="form-control d-none" id="ccodeOther" placeholder="+XXX"
+                                            inputmode="tel" aria-label="Andere Vorwahl">
+
                                         <input type="tel" class="form-control" id="telefon" name="telefon"
-                                            placeholder="660 123 4567" required pattern="^[0-9][0-9\s\-]{5,}$">
-                                        <div class="invalid-feedback">Bitte gib eine gültige Nummer ohne führende 0 ein.
-                                        </div>
+                                            placeholder="660 123 4567" required inputmode="tel"
+                                            pattern="^[0-9][0-9\s\-]{5,}$" aria-describedby="telHelp">
                                     </div>
-                                    <div class="form-text">Nur Ziffern, Leerzeichen oder Bindestrich, z. B. 660 123
-                                        4567.</div>
+                                    <div id="telHelp" class="form-text">
+                                        Bitte Landesvorwahl wählen (oder eintragen) und Rufnummer ohne Sonderzeichen
+                                        (&nbsp;/ . ( ) +) – erlaubt: Ziffern, Leerzeichen, Bindestrich.
+                                    </div>
+                                    <div class="invalid-feedback">Bitte Vorwahl wählen/angeben und eine gültige Nummer
+                                        eintragen.</div>
                                 </div>
 
                                 <!-- Produkt -->
@@ -118,7 +140,6 @@
                                 </button>
                             </form>
 
-
                             <!-- Datenschutz -->
                             <p class="datenschutz-hinweis text-center small text-secondary mt-4 mb-0">
                                 Hinweis: Deine Daten werden nur zur Bearbeitung der Bestellung genutzt und per WhatsApp
@@ -137,6 +158,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
-
 
 </html>
